@@ -11,7 +11,7 @@ app.set('view engine', 'handlebars')
 
 // routes setting
 app.get('/', (req, res) => {
-  res.send('This is a temporary version')
+  res.render('index')
 })
 
 // start and listen on the Express server
