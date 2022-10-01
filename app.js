@@ -21,10 +21,13 @@ app.get('/', (req, res) => {
   res.render('index', { restaurants: restaurantList.results })
 })
 
+//優化搜尋功能
+//1.關鍵字前後多打了空白鍵還是能搜到餐廳
+//2.以餐廳英文名搜尋也是可行的
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
+  const keyword = req.query.keyword.toLowerCase().trim()
   const restaurants = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().trim().includes(keyword.toLowerCase().trim()) || restaurant.name_en.toLowerCase().trim().includes(keyword.toLowerCase().trim())
+    return restaurant.name.toLowerCase().trim().includes(keyword) || restaurant.name_en.toLowerCase().trim().includes(keyword)
   })
 
   res.render('index', { restaurants: restaurants, keyword: keyword })
