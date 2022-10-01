@@ -2,6 +2,9 @@
 const express = require('express')
 // require express-handlebars here
 const exphbs = require('express-handlebars')
+//require restaurant.json
+const restaurantList = require('./restaurant.json')
+
 const app = express()
 const port = 3000
 
@@ -14,7 +17,8 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index')
+  //load restaurant.json into index.handlebars
+  res.render('index', { restaurants: restaurantList.results })
 })
 
 // start and listen on the Express server
