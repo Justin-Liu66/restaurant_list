@@ -50,7 +50,7 @@ app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
 
-//新增餐廳
+//新增一間餐廳
 app.post('/restaurants', (req, res) => {
   Restaurant.create(req.body)
     .then(() => res.redirect('/'))
@@ -62,6 +62,7 @@ app.post('/restaurants', (req, res) => {
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.toLowerCase().trim()
+  const Restaurant = Restaurant.lean()
   const restaurants = Restaurant.results.filter(restaurant => {
     return restaurant.name.toLowerCase().trim().includes(keyword) ||
       restaurant.name_en.toLowerCase().trim().includes(keyword) ||
@@ -76,6 +77,49 @@ app.get('/restaurants/:id', (req, res) => {
   return Restaurant.findById(id) //從資料庫中找出該餐廳
     .lean() //整理資料
     .then((restaurant) => res.render('show', { restaurant })) //以該筆資料渲染show頁面
+})
+
+//修改特定一間餐廳資訊的頁面
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('edit', { restaurant }))
+    .catch(err => console.log(err))
+})
+
+//修改特定一間餐廳資訊
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.google_map
+  const rating = req.body.rating
+  const description = req.body.description
+
+  return Restaurant.findById(id)
+    //這邊不用.lean() ??
+    .then(restaurant => {
+      console.log(restaurant)
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.category = category
+      restaurant.image = image
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.google_map = google_map
+      restaurant.rating = rating
+      restaurant.description = description
+
+      return restaurant.save()
+    })
+    //修改完成後重新導回"瀏覽該餐廳頁面"
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(err => console.log(err))
 })
 
 // start and listen on the Express server
