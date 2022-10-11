@@ -3,10 +3,6 @@ const Schema = mongoose.Schema //mongoose提供的模組
 
 const restaurantSchema = new Schema({
   // 建構新的Schema
-  id: {
-    type: Number, //資料型別是數字
-    required: true, //必填
-  },
   name: {
     type: String, //資料型別是字串
     required: true, //必填

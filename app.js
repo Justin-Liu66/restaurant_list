@@ -2,15 +2,13 @@
 const express = require('express')
 // require express-handlebars here
 const exphbs = require('express-handlebars')
-/////////
-//require restaurant.json
-//const restaurantList = require('./restaurant.json')
-/////////
 //require Restaurant model
 const Restaurant = require('./models/restaurant')
-
 //require mongoose
 const mongoose = require('mongoose')
+//reqire body-parser
+const bodyParser = require('body-parser')
+
 
 const app = express()
 const port = 3000
@@ -35,12 +33,28 @@ app.set('view engine', 'handlebars')
 //setting static files
 app.use(express.static('public'))
 
+//使用app.use規定每一筆request都需經body-parser前置處理
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // routes setting
+//瀏覽全部餐廳
 app.get('/', (req, res) => {
   Restaurant.find() //取出Restaurant model裡的所有資料
     .lean() //把Mongoose的Model物件轉換成乾淨的JS資料陣列
     .then(restaurants => res.render('index', { restaurants })) //把資料傳給index樣板
-    .catch(error => console.err(error)) //錯誤處理
+    .catch(err => console.log(err)) //錯誤處理
+})
+
+//新增餐廳頁面
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
+
+//新增餐廳
+app.post('/restaurants', (req, res) => {
+  Restaurant.create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 })
 
 //優化搜尋功能
