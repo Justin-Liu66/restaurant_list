@@ -4,9 +4,24 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 //require restaurant.json
 const restaurantList = require('./restaurant.json')
+//require mongoose
+const mongoose = require('mongoose')
 
 const app = express()
 const port = 3000
+
+//設定連線到mongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//設定一個參數，把連線狀態暫存下來，才能繼續使用
+const db = mongoose.connection
+//連線異常
+db.on('error', () => {
+  console.log('mongodb error!')
+})
+//連線成功
+db.once('open', () => {
+  console.log('mongodb connected')
+})
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
