@@ -62,7 +62,7 @@ app.post('/restaurants', (req, res) => {
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.toLowerCase().trim()
-  const restaurants = Restaurant.results.filter(restaurant => {
+  const restaurants = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().trim().includes(keyword) ||
       restaurant.name_en.toLowerCase().trim().includes(keyword) ||
       restaurant.category.toLowerCase().trim().includes(keyword)
@@ -70,12 +70,9 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurants: restaurants, keyword: keyword })
 })
 
-//瀏覽特定一間餐廳
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id //以id存取使用者點擊的餐廳
-  return Restaurant.findById(id) //從資料庫中找出該餐廳
-    .lean() //整理資料
-    .then((restaurant) => res.render('show', { restaurant })) //以該筆資料渲染show頁面
+app.get('/restaurants/:restaurant_id', (req, res) => {
+  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+  res.render('show', { restaurant })
 })
 
 // start and listen on the Express server
