@@ -2,8 +2,13 @@
 const express = require('express')
 // require express-handlebars here
 const exphbs = require('express-handlebars')
+/////////
 //require restaurant.json
-const restaurantList = require('./restaurant.json')
+//const restaurantList = require('./restaurant.json')
+/////////
+//require Restaurant model
+const Restaurant = require('./models/restaurant')
+
 //require mongoose
 const mongoose = require('mongoose')
 
@@ -32,8 +37,10 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  //load restaurant.json into index.handlebars
-  res.render('index', { restaurants: restaurantList.results })
+  Restaurant.find() //取出Restaurant model裡的所有資料
+    .lean() //把Mongoose的Model物件轉換成乾淨的JS資料陣列
+    .then(restaurants => res.render('index', { restaurants })) //把資料傳給index樣板
+    .catch(error => console.err(error)) //錯誤處理
 })
 
 //優化搜尋功能
