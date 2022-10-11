@@ -1,5 +1,6 @@
 const mongoose = require('mongoose') //載入mongoose
 const Schema = mongoose.Schema //mongoose提供的模組
+
 const restaurantSchema = new Schema({
   // 建構新的Schema
   id: {
@@ -43,4 +44,5 @@ const restaurantSchema = new Schema({
     required: true, //必填
   },
 })
+
 module.exports = mongoose.model('Restaurant', restaurantSchema) //命名並匯出這份 model
