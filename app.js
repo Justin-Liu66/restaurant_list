@@ -46,13 +46,13 @@ app.get('/', (req, res) => {
 
 //新增餐廳頁面
 app.get('/restaurants/new', (req, res) => {
-  return res.render('new')
+  return res.render('new') //渲染出新增餐廳頁面
 })
 
 //新增餐廳
 app.post('/restaurants', (req, res) => {
-  Restaurant.create(req.body)
-    .then(() => res.redirect('/'))
+  Restaurant.create(req.body) //根據使用者所輸入的內容，在資料庫中新增一筆餐廳資料
+    .then(() => res.redirect('/')) //重新導回首頁
     .catch(err => console.log(err))
 })
 
@@ -61,22 +61,25 @@ app.post('/restaurants', (req, res) => {
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
 app.get('/search', (req, res) => {
 
+  //將使用者輸入的搜尋字串刪去前後空格、轉為小寫，並以keyword變數存下來
   const keyword = req.query.keyword.trim().toLowerCase()
 
+  //從資料庫抓取所有餐廳資料，整理後，存入變數restaurantsData
   Restaurant.find()
     .lean()
     .then(restaurantsData => {
+      //過濾變數restaurantsData，將符合搜尋條件的餐廳資料存入變數filterRestaurantsData
       const filterRestaurantsData = restaurantsData.filter(
         restaurant =>
           restaurant.name.toLowerCase().includes(keyword) ||
           restaurant.name_en.toLowerCase().includes(keyword) ||
           restaurant.category.includes(keyword)
       )
+      //由index樣板根據變數filterRestaurantsData、keyword渲染出HTML格式
       res.render("index", { restaurants: filterRestaurantsData, keyword })
     })
     .catch(err => console.log(err))
 })
-
 
 
 //瀏覽特定餐廳
@@ -89,10 +92,10 @@ app.get('/restaurants/:id', (req, res) => {
 
 //修改特定餐廳資訊的頁面
 app.get('/restaurants/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const id = req.params.id //以id存取使用者點擊欲修改的餐廳
+  return Restaurant.findById(id) //透過id從資料庫中找出該筆欲修改的餐廳資料
     .lean()
-    .then((restaurant) => res.render('edit', { restaurant }))
+    .then((restaurant) => res.render('edit', { restaurant })) //使用edit為樣板，根據該餐廳資料製作出修改資訊頁
     .catch(err => console.log(err))
 })
 
@@ -123,9 +126,9 @@ app.post('/restaurants/:id/edit', (req, res) => {
 
 //刪除特定一間餐廳
 app.post('/restaurants/:id/delete', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findByIdAndRemove(id)
-    .then(() => res.redirect('/'))
+  const id = req.params.id //存下使用者欲刪除的餐廳之id
+  return Restaurant.findByIdAndRemove(id) //根據id從資料庫中找出該餐廳資料並刪除
+    .then(() => res.redirect('/')) //刪除完成後重新導回首頁
     .catch(err => console.log(err))
 })
 
