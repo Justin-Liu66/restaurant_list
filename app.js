@@ -99,30 +99,21 @@ app.get('/restaurants/:id/edit', (req, res) => {
 //修改特定餐廳資訊
 app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
-  const google_map = req.body.google_map
-  const rating = req.body.rating
-  const description = req.body.description
-
+  const body = req.body
+  //透過id從資料庫中找出該筆欲修改的資料
   return Restaurant.findById(id)
-    //這邊不用.lean() ??
+    //將該筆資料重新賦值成使用者所輸入的內容
     .then(restaurant => {
-      console.log(restaurant)
-      restaurant.name = name
-      restaurant.name_en = name_en
-      restaurant.category = category
-      restaurant.image = image
-      restaurant.location = location
-      restaurant.phone = phone
-      restaurant.google_map = google_map
-      restaurant.rating = rating
-      restaurant.description = description
-
+      restaurant.name = body.name
+      restaurant.name_en = body.name_en
+      restaurant.category = body.category
+      restaurant.image = body.image
+      restaurant.location = body.location
+      restaurant.phone = body.phone
+      restaurant.google_map = body.google_map
+      restaurant.rating = body.rating
+      restaurant.description = body.description
+      //資料庫存檔
       return restaurant.save()
     })
     //修改完成後重新導回"瀏覽該餐廳頁面"
