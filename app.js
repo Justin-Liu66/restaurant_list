@@ -109,7 +109,14 @@ app.post('/restaurants/:id/delete', (req, res) => {
 //優化搜尋功能
 //1.關鍵字前後多打了空白鍵還是能搜到餐廳
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
+//3.搜尋欄未填入字串就搜尋時導回首頁
 app.get('/search', (req, res) => {
+  console.log(req.query.keyword)
+
+  //若未填入字串就按搜尋，則導回首頁
+  if (!req.query.keyword) {
+    return res.redirect("/")
+  }
 
   //將使用者輸入的搜尋字串刪去前後空格、轉為小寫，並以keyword變數存下來
   const keyword = req.query.keyword.trim().toLowerCase()
@@ -125,8 +132,12 @@ app.get('/search', (req, res) => {
           restaurant.name_en.toLowerCase().includes(keyword) ||
           restaurant.category.includes(keyword)
       )
-      //由index樣板根據變數filterRestaurantsData、keyword渲染出HTML格式
-      res.render("index", { restaurants: filterRestaurantsData, keyword })
+
+      //把keyword搜尋不到結果情況存起來
+      const noMatchResult = !filterRestaurantsData.length
+
+      //由index樣板根據變數filterRestaurantsData、keyword、noMatchResult渲染出HTML格式
+      res.render("index", { restaurants: filterRestaurantsData, keyword, noMatchResult })
     })
     .catch(err => console.log(err))
 })

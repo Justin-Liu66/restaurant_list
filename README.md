@@ -1,6 +1,6 @@
 # 餐廳任你選-美味不踩雷
 
-![Index page about Restaurant List](./public/image/S3.A7.jpg)
+![Index page about Restaurant List](./public/image/restaurantlist_indexpage.jpg)
 
 ## 介紹
 
