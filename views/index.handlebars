@@ -42,6 +42,9 @@
       </a>
       <a href="/restaurants/{{ this._id }}">Detail</a>
       <a href="/restaurants/{{ this._id }}/edit">Edit</a>
+      <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline">
+        <button type="submit">Delete</button>
+      </form>
     </div>
     {{/each}}
   </div>
