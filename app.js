@@ -9,10 +9,6 @@ const mongoose = require('mongoose')
 //reqire body-parser
 const bodyParser = require('body-parser')
 
-
-const app = express()
-const port = 3000
-
 //設定連線到mongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 //設定一個參數，把連線狀態暫存下來，才能繼續使用
@@ -25,6 +21,9 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected')
 })
+
+const app = express()
+const port = 3000
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -50,7 +49,7 @@ app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
 
-//新增一間餐廳
+//新增餐廳
 app.post('/restaurants', (req, res) => {
   Restaurant.create(req.body)
     .then(() => res.redirect('/'))
@@ -61,17 +60,26 @@ app.post('/restaurants', (req, res) => {
 //1.關鍵字前後多打了空白鍵還是能搜到餐廳
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.toLowerCase().trim()
-  const Restaurant = Restaurant.lean()
-  const restaurants = Restaurant.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().trim().includes(keyword) ||
-      restaurant.name_en.toLowerCase().trim().includes(keyword) ||
-      restaurant.category.toLowerCase().trim().includes(keyword)
-  })
-  res.render('index', { restaurants: restaurants, keyword: keyword })
+
+  const keyword = req.query.keyword.trim().toLowerCase()
+
+  Restaurant.find()
+    .lean()
+    .then(restaurantsData => {
+      const filterRestaurantsData = restaurantsData.filter(
+        restaurant =>
+          restaurant.name.toLowerCase().includes(keyword) ||
+          restaurant.name_en.toLowerCase().includes(keyword) ||
+          restaurant.category.includes(keyword)
+      )
+      res.render("index", { restaurants: filterRestaurantsData, keyword })
+    })
+    .catch(err => console.log(err))
 })
 
-//瀏覽特定一間餐廳
+
+
+//瀏覽特定餐廳
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id //以id存取使用者點擊的餐廳
   return Restaurant.findById(id) //從資料庫中找出該餐廳
@@ -79,7 +87,7 @@ app.get('/restaurants/:id', (req, res) => {
     .then((restaurant) => res.render('show', { restaurant })) //以該筆資料渲染show頁面
 })
 
-//修改特定一間餐廳資訊的頁面
+//修改特定餐廳資訊的頁面
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
@@ -88,7 +96,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(err => console.log(err))
 })
 
-//修改特定一間餐廳資訊
+//修改特定餐廳資訊
 app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
   const name = req.body.name
