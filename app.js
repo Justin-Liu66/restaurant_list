@@ -56,32 +56,6 @@ app.post('/restaurants', (req, res) => {
     .catch(err => console.log(err))
 })
 
-//優化搜尋功能
-//1.關鍵字前後多打了空白鍵還是能搜到餐廳
-//2.以餐廳英文名字或餐廳類別搜尋也是可行的
-app.get('/search', (req, res) => {
-
-  //將使用者輸入的搜尋字串刪去前後空格、轉為小寫，並以keyword變數存下來
-  const keyword = req.query.keyword.trim().toLowerCase()
-
-  //從資料庫抓取所有餐廳資料，整理後，存入變數restaurantsData
-  Restaurant.find()
-    .lean()
-    .then(restaurantsData => {
-      //過濾變數restaurantsData，將符合搜尋條件的餐廳資料存入變數filterRestaurantsData
-      const filterRestaurantsData = restaurantsData.filter(
-        restaurant =>
-          restaurant.name.toLowerCase().includes(keyword) ||
-          restaurant.name_en.toLowerCase().includes(keyword) ||
-          restaurant.category.includes(keyword)
-      )
-      //由index樣板根據變數filterRestaurantsData、keyword渲染出HTML格式
-      res.render("index", { restaurants: filterRestaurantsData, keyword })
-    })
-    .catch(err => console.log(err))
-})
-
-
 //瀏覽特定餐廳
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id //以id存取使用者點擊的餐廳
@@ -132,6 +106,30 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .catch(err => console.log(err))
 })
 
+//優化搜尋功能
+//1.關鍵字前後多打了空白鍵還是能搜到餐廳
+//2.以餐廳英文名字或餐廳類別搜尋也是可行的
+app.get('/search', (req, res) => {
+
+  //將使用者輸入的搜尋字串刪去前後空格、轉為小寫，並以keyword變數存下來
+  const keyword = req.query.keyword.trim().toLowerCase()
+
+  //從資料庫抓取所有餐廳資料，整理後，存入變數restaurantsData
+  Restaurant.find()
+    .lean()
+    .then(restaurantsData => {
+      //過濾變數restaurantsData，將符合搜尋條件的餐廳資料存入變數filterRestaurantsData
+      const filterRestaurantsData = restaurantsData.filter(
+        restaurant =>
+          restaurant.name.toLowerCase().includes(keyword) ||
+          restaurant.name_en.toLowerCase().includes(keyword) ||
+          restaurant.category.includes(keyword)
+      )
+      //由index樣板根據變數filterRestaurantsData、keyword渲染出HTML格式
+      res.render("index", { restaurants: filterRestaurantsData, keyword })
+    })
+    .catch(err => console.log(err))
+})
 
 // start and listen on the Express server
 app.listen(port, () => {
