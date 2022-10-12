@@ -1,8 +1,8 @@
 <!-- search bar -->
 <div class="container search-bar">
-  <div class="search-bar-outer" style="outline: 2px solid yellow">
-    <div class="search-bar-inner" style="outline: 2px solid blue">
-      <form action="/search" style="outline: 2px solid red">
+  <div class="search-bar-outer">
+    <div class="search-bar-inner">
+      <form action="/search" class="mb-3">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
@@ -13,7 +13,7 @@
         </div>
       </form>
     </div>
-    <a href="/restaurants/new">Create</a>
+    <a href="/restaurants/new">新增餐廳</a>
   </div>
 </div>
 
@@ -22,7 +22,7 @@
   <div class="row">
     <!-- use loop method to render all eight restaurants -->
     {{#each restaurants}}
-    <div class="col-4" style="outline: 2px solid red">
+    <div class="col-4 mb-5">
       <a href="/restaurants/{{this._id}}" class="text-secondary">
         <div class="card mb-3">
           <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
@@ -40,10 +40,12 @@
           </div>
         </div>
       </a>
-      <a href="/restaurants/{{ this._id }}">Detail</a>
-      <a href="/restaurants/{{ this._id }}/edit">Edit</a>
+      <a href="/restaurants/{{ this._id }}" style="border: 1px solid green; border-radius: 10px; color: green">詳細資訊</a>
+      <a href="/restaurants/{{ this._id }}/edit"
+        style="border: 1px solid green; border-radius: 10px; color: green">編輯</a>
       <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline">
-        <button type="submit">Delete</button>
+        <button type="submit" class="ml-4"
+          style="border: 1px solid green; border-radius: 10px; color: green; background: white">Delete</button>
       </form>
     </div>
     {{/each}}
