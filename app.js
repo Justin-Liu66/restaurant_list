@@ -8,6 +8,8 @@ const Restaurant = require('./models/restaurant')
 const mongoose = require('mongoose')
 //reqire body-parser
 const bodyParser = require('body-parser')
+//require method-override
+const methodOverride = require('method-override')
 
 //設定連線到mongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -34,6 +36,9 @@ app.use(express.static('public'))
 
 //使用app.use規定每一筆request都需經body-parser前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
+
+//設定每一筆請求都會透過methodOverride進行前置處理
+app.use(methodOverride('_method'))
 
 // routes setting
 //瀏覽全部餐廳
@@ -74,7 +79,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 //修改特定餐廳資訊
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const body = req.body
   //透過id從資料庫中找出該筆欲修改的資料
@@ -99,7 +104,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 //刪除特定一間餐廳
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id //存下使用者欲刪除的餐廳之id
   return Restaurant.findByIdAndRemove(id) //根據id從資料庫中找出該餐廳資料並刪除
     .then(() => res.redirect('/')) //刪除完成後重新導回首頁
