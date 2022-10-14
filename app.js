@@ -2,30 +2,15 @@
 const express = require('express')
 // require express-handlebars here
 const exphbs = require('express-handlebars')
-//require mongoose
-const mongoose = require('mongoose')
 //reqire body-parser
 const bodyParser = require('body-parser')
 //require method-override
 const methodOverride = require('method-override')
 
-//require Restaurant model
-const Restaurant = require('./models/restaurant')
 //require routes
 const routes = require("./routes")
-
-//設定連線到mongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-//設定一個參數，把連線狀態暫存下來，才能繼續使用
-const db = mongoose.connection
-//連線異常
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-//連線成功
-db.once('open', () => {
-  console.log('mongodb connected')
-})
+//require mongoose
+require('./config/mongoose')
 
 const app = express()
 const port = 3000
