@@ -4,6 +4,7 @@ const router = express.Router()
 //require Restaurant model
 const Restaurant = require('../../models/restaurant')
 
+////route setting
 //新增餐廳頁面
 router.get('/new', (req, res) => {
   return res.render('new') //渲染出新增餐廳頁面
