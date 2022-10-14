@@ -2,14 +2,17 @@
 const express = require('express')
 // require express-handlebars here
 const exphbs = require('express-handlebars')
-//require Restaurant model
-const Restaurant = require('./models/restaurant')
 //require mongoose
 const mongoose = require('mongoose')
 //reqire body-parser
 const bodyParser = require('body-parser')
 //require method-override
 const methodOverride = require('method-override')
+
+//require Restaurant model
+const Restaurant = require('./models/restaurant')
+//require routes
+const routes = require("./routes")
 
 //設定連線到mongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -39,84 +42,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 //設定每一筆請求都會透過methodOverride進行前置處理
 app.use(methodOverride('_method'))
+//設定每一筆請求都要導入路由器
+app.use(routes)
 
 // routes setting
-//瀏覽全部餐廳
-app.get('/', (req, res) => {
-  Restaurant.find() //取出Restaurant model裡的所有資料
-    .lean() //把Mongoose的Model物件轉換成乾淨的JS資料陣列
-    .then(restaurants => res.render('index', { restaurants })) //把資料傳給index樣板
-    .catch(err => console.log(err)) //錯誤處理
-})
-
-//新增餐廳頁面
-app.get('/restaurants/new', (req, res) => {
-  return res.render('new') //渲染出新增餐廳頁面
-})
-
-//新增餐廳
-app.post('/restaurants', (req, res) => {
-  Restaurant.create(req.body) //根據使用者所輸入的內容，在資料庫中新增一筆餐廳資料
-    .then(() => res.redirect('/')) //重新導回首頁
-    .catch(err => console.log(err))
-})
-
-//瀏覽特定餐廳
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id //以id存取使用者點擊的餐廳
-  return Restaurant.findById(id) //從資料庫中找出該餐廳
-    .lean() //整理資料
-    .then((restaurant) => res.render('show', { restaurant })) //以該筆資料渲染show頁面
-})
-
-//修改特定餐廳資訊的頁面
-app.get('/restaurants/:id/edit', (req, res) => {
-  const id = req.params.id //以id存取使用者點擊欲修改的餐廳
-  return Restaurant.findById(id) //透過id從資料庫中找出該筆欲修改的餐廳資料
-    .lean()
-    .then((restaurant) => res.render('edit', { restaurant })) //使用edit為樣板，根據該餐廳資料製作出修改資訊頁
-    .catch(err => console.log(err))
-})
-
-//修改特定餐廳資訊
-app.put('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  const body = req.body
-  //透過id從資料庫中找出該筆欲修改的資料
-  return Restaurant.findById(id)
-    //將該筆資料重新賦值成使用者所輸入的內容
-    .then(restaurant => {
-      restaurant.name = body.name
-      restaurant.name_en = body.name_en
-      restaurant.category = body.category
-      restaurant.image = body.image
-      restaurant.location = body.location
-      restaurant.phone = body.phone
-      restaurant.google_map = body.google_map
-      restaurant.rating = body.rating
-      restaurant.description = body.description
-      //資料庫存檔
-      return restaurant.save()
-    })
-    //修改完成後重新導回"瀏覽該餐廳頁面"
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(err => console.log(err))
-})
-
-//刪除特定一間餐廳
-app.delete('/restaurants/:id', (req, res) => {
-  const id = req.params.id //存下使用者欲刪除的餐廳之id
-  return Restaurant.findByIdAndRemove(id) //根據id從資料庫中找出該餐廳資料並刪除
-    .then(() => res.redirect('/')) //刪除完成後重新導回首頁
-    .catch(err => console.log(err))
-})
-
 //優化搜尋功能
 //1.關鍵字前後多打了空白鍵還是能搜到餐廳
 //2.以餐廳英文名字或餐廳類別搜尋也是可行的
 //3.搜尋欄未填入字串就搜尋時導回首頁
 app.get('/search', (req, res) => {
-  console.log(req.query.keyword)
 
   //若未填入字串就按搜尋，則導回首頁
   if (!req.query.keyword) {
