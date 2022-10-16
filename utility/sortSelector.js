@@ -1,12 +1,12 @@
 function sortSelector(sort) {
   switch (sort) {
-    case '1':
+    case 'name_asc':
       return { name: 'asc' }
-    case '2':
+    case 'name_desc':
       return { name: 'desc' }
-    case '3':
+    case 'category':
       return { category: 'asc' }
-    case '4':
+    case 'location':
       return { location: 'asc' }
   }
 }
