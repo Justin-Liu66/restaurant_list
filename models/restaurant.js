@@ -17,27 +17,21 @@ const restaurantSchema = new Schema({
   },
   image: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
   location: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
   phone: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
   google_map: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
   rating: {
     type: Number, //資料型別是數字
-    required: true, //必填
   },
   description: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
 })
 
