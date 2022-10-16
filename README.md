@@ -1,14 +1,15 @@
 # 餐廳任你選-美味不踩雷
 
-![Index page about Restaurant List](./public/image/S3.A7.jpg)
+![Index page about Restaurant List](./public/image/S3.A8.jpg)
 
 ## 介紹
 
-紀錄屬於自己的餐廳清單，可以瀏覽餐廳、查看詳細資訊、甚至連結到地圖。
+紀錄屬於自己的餐廳清單，可以瀏覽、新增、編輯餐廳、查看詳細資訊、甚至連結到地圖。
 
 ### 功能
 
 - 查看所有餐廳
+- 選擇名字、類別、或地區來排列所有餐廳
 - 瀏覽餐廳的詳細資訊
 - 連結餐廳的地址到 Google 地圖
 - 搜尋特定餐廳
@@ -44,7 +45,7 @@
 ## 開發工具
 
 - Node.js 10.15.0
-- Express 4.17.1
-- Express-Handlebars 5.3.3
-- Bootstrap 4.3.1
+- Express 4.16.4
+- Express-Handlebars 3.0.0
+- Bootstrap 5.2.2
 - Font-awesome 5.8.1
