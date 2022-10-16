@@ -12,6 +12,7 @@ router.get('/new', (req, res) => {
 
 //新增餐廳
 router.post('/', (req, res) => {
+
   Restaurant.create(req.body) //根據使用者所輸入的內容，在資料庫中新增一筆餐廳資料
     .then(() => res.redirect('/')) //重新導回首頁
     .catch(err => console.log(err))

@@ -9,7 +9,6 @@ const restaurantSchema = new Schema({
   },
   name_en: {
     type: String, //資料型別是字串
-    required: true, //必填
   },
   category: {
     type: String, //資料型別是字串
@@ -20,6 +19,7 @@ const restaurantSchema = new Schema({
   },
   location: {
     type: String, //資料型別是字串
+    required: true, //必填
   },
   phone: {
     type: String, //資料型別是字串
