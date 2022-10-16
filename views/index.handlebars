@@ -15,22 +15,20 @@
               <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
             </div>
           </div>
-          
         </div>
       </form>
-
-      <!-- Sort -->
-      <div class="form-group">
-        <form action="/">
-          <select name="sort" id="sort" oninput="form.submit()">
-            <option value="0">Sort</option>
-            <option value="1">A->Z</option>
-            <option value="2">Z->A</option>
-            <option value="3">類別</option>
-            <option value="4">地區</option>
-          </select>
-        </form>
-      </div>
+    </div>
+    <!-- Sort -->
+    <div class="form-group d-flex justify-content-end" style="margin-top: 10px;">
+      <form action="/">
+        <select name="sort" id="sort" oninput="form.submit()" class="form-select form-select-md" style="color: green">
+          <option value="0">餐廳排序</option>
+          <option value="1">A->Z</option>
+          <option value="2">Z->A</option>
+          <option value="3">類別</option>
+          <option value="4">地區</option>
+        </select>
+      </form>
     </div>
   </div>
 </div>

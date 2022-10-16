@@ -6,7 +6,7 @@ const Restaurant = require('../../models/restaurant')
 
 //搜尋功能
 //1.關鍵字前後多打了空白鍵還是能搜到餐廳
-//2.以餐廳英文名字或餐廳類別搜尋也是可行的
+//2.以餐廳地區或餐廳類別搜尋也是可行的
 //3.搜尋欄未填入字串就搜尋時導回首頁
 router.get('/', (req, res) => {
 
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
       const filterRestaurantsData = restaurantsData.filter(
         restaurant =>
           restaurant.name.toLowerCase().includes(keyword) ||
-          restaurant.name_en.toLowerCase().includes(keyword) ||
+          restaurant.location.toLowerCase().includes(keyword) ||
           restaurant.category.includes(keyword)
       )
 
