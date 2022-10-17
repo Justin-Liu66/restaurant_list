@@ -43,15 +43,7 @@ router.put('/:id', (req, res) => {
   return Restaurant.findById(id)
     //將該筆資料重新賦值成使用者所輸入的內容
     .then(restaurant => {
-      restaurant.name = body.name
-      restaurant.name_en = body.name_en
-      restaurant.category = body.category
-      restaurant.image = body.image
-      restaurant.location = body.location
-      restaurant.phone = body.phone
-      restaurant.google_map = body.google_map
-      restaurant.rating = body.rating
-      restaurant.description = body.description
+      restaurant = Object.assign(restaurant, body)
       //資料庫存檔
       return restaurant.save()
     })
