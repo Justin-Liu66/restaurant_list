@@ -1,5 +1,7 @@
 // require packages used in the project
 const express = require('express')
+const session = require('express-session')
+
 // require express-handlebars here
 const exphbs = require('express-handlebars')
 //reqire body-parser
@@ -18,6 +20,12 @@ const port = 3000
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 //setting static files
 app.use(express.static('public'))
