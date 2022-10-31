@@ -7,6 +7,7 @@ const router = express.Router()
 const home = require('./modules/home')
 const restaurants = require('./modules/restaurants')
 const search = require('./modules/search')
+const users = require('./modules/users')
 
 //distribute the request, of which path is '/', to module: home 
 router.use('/', home)
@@ -14,6 +15,9 @@ router.use('/', home)
 router.use('/restaurants', restaurants)
 //distribute the request, of which path is '/search', to module: restaurants 
 router.use('/search', search)
+
+router.use('/users', users)
+
 
 //匯出路由器
 module.exports = router
