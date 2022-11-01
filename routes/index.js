@@ -8,16 +8,18 @@ const home = require('./modules/home')
 const restaurants = require('./modules/restaurants')
 const search = require('./modules/search')
 const users = require('./modules/users')
+const { authenticator } = require('../middleware/auth')
 
-//distribute the request, of which path is '/', to module: home 
-router.use('/', home)
 //distribute the request, of which path is '/restaurants', to module: restaurants 
-router.use('/restaurants', restaurants)
+router.use('/restaurants', authenticator, restaurants)
+
 //distribute the request, of which path is '/search', to module: restaurants 
-router.use('/search', search)
+router.use('/search', authenticator, search)
 
 router.use('/users', users)
 
+//distribute the request, of which path is '/', to module: home 
+router.use('/', authenticator, home)
 
 //匯出路由器
 module.exports = router
