@@ -8,6 +8,8 @@ const home = require('./modules/home')
 const restaurants = require('./modules/restaurants')
 const search = require('./modules/search')
 const users = require('./modules/users')
+const auth = require('./modules/auth')
+
 const { authenticator } = require('../middleware/auth')
 
 //distribute the request, of which path is '/restaurants', to module: restaurants 
@@ -18,6 +20,7 @@ router.use('/search', authenticator, search)
 
 router.use('/users', users)
 
+router.use('/auth', auth)
 //distribute the request, of which path is '/', to module: home 
 router.use('/', authenticator, home)
 
