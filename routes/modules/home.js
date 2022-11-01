@@ -9,7 +9,8 @@ const sortSelector = require('../../utility/sortSelector')
 //define route of homepage (瀏覽全部餐廳)
 router.get('/', (req, res) => {
   let sort = req.query.sort
-  Restaurant.find() //取出Restaurant model裡的所有資料
+  const userId = req.user._id
+  Restaurant.find({ userId }) //取出Restaurant model裡的所有資料
     .lean()
     .sort(sortSelector(sort))
     .then(restaurants => res.render('index', { restaurants })) //把資料傳給index樣板

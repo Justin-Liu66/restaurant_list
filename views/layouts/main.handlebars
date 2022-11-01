@@ -23,7 +23,9 @@
   <header>
     <!-- navigation -->
     <nav class="navbar navbar-light bg-light">
-      {{#if isAuthenticated}}用戶:{{user.email}}{{/if}}
+      {{#if isAuthenticated}}
+      用戶:{{user.email}}
+      {{/if}}
       <div class="container">
         <a class="navbar-brand" href="/">
           <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
