@@ -1,6 +1,7 @@
 // require packages used in the project
 const express = require('express')
 const session = require('express-session')
+const usePassport = require('./config/passport')
 
 // require express-handlebars here
 const exphbs = require('express-handlebars')
@@ -35,6 +36,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 //設定每一筆請求都會透過methodOverride進行前置處理
 app.use(methodOverride('_method'))
+
+// 呼叫 Passport 函式並傳入 app
+usePassport(app)
+
 //設定每一筆請求都要導入路由器
 app.use(routes)
 
