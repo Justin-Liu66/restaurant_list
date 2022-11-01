@@ -9,6 +9,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 //require method-override
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
 
 //require routes
 const routes = require("./routes")
@@ -40,11 +41,15 @@ app.use(methodOverride('_method'))
 // 呼叫 Passport 函式並傳入 app
 usePassport(app)
 
+app.use(flash())
+
 //將req驗證完的登入狀態交接給res
 app.use((req, res, next) => {
   //console.log(req.user)
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 
