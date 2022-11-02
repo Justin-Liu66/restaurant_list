@@ -18,17 +18,23 @@
         </div>
       </form>
     </div>
-    <!-- Sort -->
-    <div class="form-group d-flex justify-content-end" style="margin-top: 10px;">
-      <form action="/">
-        <select name="sort" id="sort" oninput="form.submit()" class="form-select form-select-md" style="color: green">
-          <option value="default">餐廳排序</option>
-          <option value="name_asc">A > Z</option>
-          <option value="name_desc">Z > A</option>
-          <option value="category_asc">類別</option>
-          <option value="location_asc">地區</option>
-        </select>
-      </form>
+
+    <div class="container d-flex flex-row justify-content-between">
+      {{#if isAuthenticated}}
+      <a class="btn btn-outline-info" href="/restaurants/new">新增餐廳</a>
+      {{/if}}
+      <!-- Sort -->
+      <div class="form-group d-flex justify-content-end" style="margin-top: 10px">
+        <form action="/">
+          <select name="sort" id="sort" oninput="form.submit()" class="form-select form-select-md" style="color: green">
+            <option value="default">餐廳排序</option>
+            <option value="name_asc">A > Z</option>
+            <option value="name_desc">Z > A</option>
+            <option value="category_asc">類別</option>
+            <option value="location_asc">地區</option>
+          </select>
+        </form>
+      </div>
     </div>
   </div>
 </div>
