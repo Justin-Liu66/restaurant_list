@@ -20,7 +20,8 @@ module.exports = app => {
           .then(isMatch => {
             if (!isMatch) {
               return done(null, false, req.flash('warning_msg', 'Email or Password incorrect')
-          )}
+              )
+            }
             return done(null, user)
           })
       })
@@ -34,7 +35,7 @@ module.exports = app => {
     callbackURL: process.env.FACEBOOK_CALLBACK,
     profileFields: ['email', 'displayName']
   }, (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
+
     const { email, name } = profile._json
     User.findOne({ email })
       .then(user => {
