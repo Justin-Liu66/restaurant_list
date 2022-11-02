@@ -49,4 +49,8 @@
 - Express 4.16.4
 - Express-Handlebars 3.0.0
 - Bootstrap 5.2.2
-- Font-awesome 5.8.1
+- express-session 1.17.1
+- mongoose 5.9.7
+- passport 0.4.1
+- passport-facebook 3.0.0
+- passport-local 1.0.0
