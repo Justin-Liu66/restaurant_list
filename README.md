@@ -1,4 +1,4 @@
-# 餐廳任你選-美味不踩雷
+# 個人口袋餐廳-美味不踩雷
 
 ![Index page about Restaurant List](./public/image/Final%20Image.jpg)
 
