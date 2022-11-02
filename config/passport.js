@@ -34,7 +34,8 @@ module.exports = app => {
     callbackURL: process.env.FACEBOOK_CALLBACK,
     profileFields: ['email', 'displayName']
   }, (accessToken, refreshToken, profile, done) => {
-    const { email } = profile._json
+    console.log(profile)
+    const { email, name } = profile._json
     User.findOne({ email })
       .then(user => {
         if (user) return done(null, user)
@@ -43,6 +44,7 @@ module.exports = app => {
           .genSalt(10)
           .then(salt => bcrypt.hash(randomPassword, salt))
           .then(hash => User.create({
+            name,
             email,
             password: hash
           }))
