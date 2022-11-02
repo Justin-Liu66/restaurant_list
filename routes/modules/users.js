@@ -12,7 +12,7 @@ router.get('/login', (req, res) => {
 //提交登錄表單
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
 }))
 
 //註冊頁面
