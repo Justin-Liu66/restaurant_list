@@ -1,13 +1,13 @@
 # 餐廳任你選-美味不踩雷
 
-![Index page about Restaurant List](./public/image/S3.A8(revised).jpg)
+![Index page about Restaurant List](./public/image/Final%20Image.jpg)
 
 ## 介紹
 
 紀錄屬於自己的餐廳清單，可以瀏覽、新增、編輯餐廳、查看詳細資訊、甚至連結到地圖。
 
 ### 功能
-- 使用於本站註冊之帳號或facebook登入
+
 - 查看所有餐廳
 - 選擇名字、類別、或地區來排列所有餐廳
 - 瀏覽餐廳的詳細資訊
@@ -27,6 +27,7 @@
 4. 安裝完畢後，繼續輸入：
 
    ```bash
+   npm run seed
    npm run start
    ```
 
@@ -47,8 +48,5 @@
 - Node.js 10.15.0
 - Express 4.16.4
 - Express-Handlebars 3.0.0
-- Express-session 1.17.1
-- mongoose 5.9.7
-- passport 0.4.1
-- passport-facebook 3.0.0
-- passport-local 1.0.0
+- Bootstrap 5.2.2
+- Font-awesome 5.8.1
