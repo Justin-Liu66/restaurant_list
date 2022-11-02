@@ -22,10 +22,10 @@ router.get('/register', (req, res) => {
 
 //提交註冊表單
 router.post('/register', (req, res) => {
-  const { email, password, confirmPassword } = req.body
+  const { name, email, password, confirmPassword } = req.body
   const errors = []
   if (!email || !password || !confirmPassword) {
-    errors.push({ message: '所有欄位都是必填' })
+    errors.push({ message: 'Email, Password, Comfirm Password欄位都是必填' })
   }
   if (password !== confirmPassword) {
     errors.push({ message: '密碼與確認密碼不相符!' })
@@ -33,6 +33,7 @@ router.post('/register', (req, res) => {
   if (errors.length) {
     return res.render('register', {
       errors,
+      name,
       email,
       password,
       confirmPassword
@@ -44,6 +45,7 @@ router.post('/register', (req, res) => {
       if (user) {
         errors.push({ message: '這個Email已註冊過了' })
         res.render('register', {
+          name,
           errors,
           email,
           password,
@@ -56,6 +58,7 @@ router.post('/register', (req, res) => {
           .genSalt(10)
           .then(salt => bcrypt.hash(password, salt))
           .then(hash => User.create({
+            name,
             email,
             password: hash
           }))
